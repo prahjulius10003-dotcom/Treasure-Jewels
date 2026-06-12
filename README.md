@@ -1,26 +1,32 @@
-# Treasure Jewels Ghana - Online Bag Shop
+# xtend
 
-## Setup Instructions
+[![browser support][3]][4]
 
-### 1. Install dependencies
-```bash
-npm install
+[![locked](http://badges.github.io/stability-badges/dist/locked.svg)](http://github.com/badges/stability-badges)
+
+Extend like a boss
+
+xtend is a basic utility library which allows you to extend an object by appending all of the properties from each object in a list. When there are identical properties, the right-most property takes precedence.
+
+## Examples
+
+```js
+var extend = require("xtend")
+
+// extend returns a new object. Does not mutate arguments
+var combination = extend({
+    a: "a",
+    b: "c"
+}, {
+    b: "b"
+})
+// { a: "a", b: "b" }
 ```
 
-### 2. Configure environment
-Copy `.env.example` to `.env` and fill in your values:
-- Get Paystack keys at https://dashboard.paystack.com
-- Set a strong ADMIN_PASSWORD
+## Stability status: Locked
 
-### 3. Run the server
-```bash
-npm run dev   # development (auto-restarts)
-npm start     # production
-```
+## MIT Licensed 
 
-### 4. Open in browser
-- Store: http://localhost:3000
-- Admin: http://localhost:3000/admin
 
-## Adding Product Images
-Upload bag images to `public/images/` and use the filename when adding products in the admin panel.
+  [3]: http://ci.testling.com/Raynos/xtend.png
+  [4]: http://ci.testling.com/Raynos/xtend
