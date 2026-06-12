@@ -1,0 +1,32 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-page-header">
+    <h4>Products</h4>
+    <a href="/admin/products/new" class="btn btn-dark btn-sm"><i class="bi bi-plus-lg me-1"></i>Add Product</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table admin-table">
+      <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Badge</th><th>Featured</th><th>Actions</th></tr></thead>
+      <tbody>
+        <% products.forEach(p => { %>
+        <tr>
+          <td><img src="/images/<%= p.image %>" width="55" height="55" style="object-fit:cover;border-radius:8px" onerror="this.src='/images/default-bag.jpg'"/></td>
+          <td class="fw-semibold"><%= p.name %></td>
+          <td><small><%= p.category %></small></td>
+          <td>GH&#8373;<%= p.price.toFixed(2) %><% if(p.original_price) { %><br/><small class="text-muted line-through">GH&#8373;<%= p.original_price.toFixed(2) %></small><% } %></td>
+          <td><span class="<%= p.stock < 5 ? 'text-danger fw-bold' : '' %>"><%= p.stock %></span></td>
+          <td><% if(p.badge) { %><span class="badge bg-secondary"><%= p.badge %></span><% } %></td>
+          <td><% if(p.is_featured) { %><i class="bi bi-star-fill text-warning"></i><% } %></td>
+          <td>
+            <a href="/admin/products/<%= p.id %>/edit" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+            <form action="/admin/products/<%= p.id %>?_method=DELETE" method="POST" class="d-inline" onsubmit="return confirm('Delete this product?')">
+              <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+<div class="shop-hero">
+  <div class="container"><h1><%= selectedCategory || 'All Bags' %></h1></div>
+</div>
+<section class="section-pad">
+  <div class="container">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-lg-3 mb-4">
+        <div class="filter-sidebar">
+          <div class="filter-section">
+            <h6>Categories</h6>
+            <a href="/shop" class="filter-link <%= !selectedCategory ? 'active' : '' %>">All Bags <span class="filter-count"></span></a>
+            <% categories.forEach(cat => { %>
+            <a href="/shop?category=<%= encodeURIComponent(cat.category) %>" class="filter-link <%= selectedCategory === cat.category ? 'active' : '' %>"><%= cat.category %></a>
+            <% }) %>
+          </div>
+          <div class="filter-section mt-4">
+            <h6>Price Range</h6>
+            <form action="/shop" method="GET" id="priceForm">
+              <% if(selectedCategory) { %><input type="hidden" name="category" value="<%= selectedCategory %>"/><% } %>
+              <div class="price-inputs">
+                <input type="number" name="min_price" placeholder="Min" value="<%= min_price %>" class="form-control form-control-sm"/>
+                <span>—</span>
+                <input type="number" name="max_price" placeholder="Max" value="<%= max_price %>" class="form-control form-control-sm"/>
+              </div>
+              <button type="submit" class="btn btn-sm btn-dark w-100 mt-2">Apply</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Products -->
+      <div class="col-lg-9">
+        <div class="shop-toolbar">
+          <p class="result-count"><%= products.length %> bag<%= products.length !== 1 ? 's' : '' %> found</p>
+          <form action="/shop" method="GET" class="d-flex gap-2 align-items-center">
+            <% if(selectedCategory) { %><input type="hidden" name="category" value="<%= selectedCategory %>"/><% } %>
+            <select name="sort" class="form-select form-select-sm sort-select" onchange="this.form.submit()">
+              <option value="" <%= !sort ? 'selected' : '' %>>Sort by</option>
+              <option value="newest" <%= sort==='newest' ? 'selected' : '' %>>Newest</option>
+              <option value="popular" <%= sort==='popular' ? 'selected' : '' %>>Most Popular</option>
+              <option value="price_asc" <%= sort==='price_asc' ? 'selected' : '' %>>Price: Low to High</option>
+              <option value="price_desc" <%= sort==='price_desc' ? 'selected' : '' %>>Price: High to Low</option>
+            </select>
+          </form>
+        </div>
+        <% if(products.length === 0) { %>
+        <div class="empty-state">
+          <i class="bi bi-bag-x"></i>
+          <h5>No bags found</h5>
+          <a href="/shop" class="btn-gold mt-3">Clear filters</a>
+        </div>
+        <% } else { %>
+        <div class="row g-4">
+          <% products.forEach(product => { %>
+          <div class="col-6 col-md-4">
+            <%- include('partials/product-card', { product, wishlist }) %>
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

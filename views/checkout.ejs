@@ -1,0 +1,149 @@
+<%- include('partials/header') %>
+<section class="section-pad">
+  <div class="container">
+    <div class="checkout-steps mb-4">
+      <div class="step done"><span>1</span> Cart</div>
+      <div class="step-line"></div>
+      <div class="step active"><span>2</span> Details</div>
+      <div class="step-line"></div>
+      <div class="step"><span>3</span> Payment</div>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="checkout-card">
+          <h5 class="mb-4"><i class="bi bi-geo-alt me-2"></i>Delivery Information</h5>
+          <form action="/payment/place-order" method="POST" id="checkoutForm">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="name" class="form-control" required placeholder="Treasure Jewels"/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" required placeholder="you@example.com"/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" required placeholder="0241234567"/>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Delivery Address</label>
+                <input type="text" name="address" class="form-control" required placeholder="Street, Area, Landmark"/>
+              </div>
+              <div class="col-12">
+                <label class="form-label">City</label>
+                <select name="city" class="form-select" required>
+                  <option value="">Select city...</option>
+                  <% ['Accra','Kumasi','Tamale','Cape Coast','Tema','Takoradi','Sunyani','Ho','Bolgatanga','Wa','Other'].forEach(c => { %>
+                  <option><%= c %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Order Notes (optional)</label>
+                <textarea name="notes" class="form-control" rows="2" placeholder="Any special delivery instructions?"></textarea>
+              </div>
+              <div class="col-12 mt-2">
+                <label class="form-label fw-semibold">Payment Method</label>
+                <div class="payment-options">
+                  <label class="payment-option">
+                    <input type="radio" name="payment_method" value="momo" required/>
+                    <div class="payment-option-content">
+                      <i class="bi bi-phone"></i>
+                      <div><strong>Mobile Money</strong><small>MTN MoMo, AirtelTigo, Telecel</small></div>
+                    </div>
+                  </label>
+                  <label class="payment-option">
+                    <input type="radio" name="payment_method" value="card"/>
+                    <div class="payment-option-content">
+                      <i class="bi bi-credit-card-2-front"></i>
+                      <div><strong>Card Payment</strong><small>Visa, Mastercard</small></div>
+                    </div>
+                  </label>
+                  <label class="payment-option">
+                    <input type="radio" name="payment_method" value="cash"/>
+                    <div class="payment-option-content">
+                      <i class="bi bi-cash-coin"></i>
+                      <div><strong>Cash on Delivery</strong><small>Pay when your order arrives</small></div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div class="col-12 mt-3 d-none" id="paymentExtraRow">
+                <label class="form-label" id="paymentExtraLabel">Payment Number</label>
+                <input type="text" name="payment_number" id="paymentExtraInput" class="form-control" placeholder="Enter mobile money number or card number" />
+                <div class="form-text" id="paymentExtraHelp">Enter your mobile money or card number.</div>
+              </div>
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn-gold w-100">
+                  <i class="bi bi-lock-fill me-2"></i>Place Order Securely
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="order-summary-card sticky-top" style="top:90px">
+          <h5>Your Order</h5>
+          <hr/>
+          <% cart.forEach(item => { %>
+          <div class="checkout-item">
+            <img src="/images/<%= item.image %>" onerror="this.src='/images/default-bag.jpg'"/>
+            <div class="flex-grow-1">
+              <p class="mb-0 small fw-semibold"><%= item.name %></p>
+              <p class="mb-0 small text-muted">Qty: <%= item.quantity %></p>
+            </div>
+            <span class="fw-semibold small">GH&#8373; <%= (item.price*item.quantity).toFixed(2) %></span>
+          </div>
+          <% }) %>
+          <hr/>
+          <div class="summary-row"><span>Subtotal</span><span>GH&#8373; <%= total.toFixed(2) %></span></div>
+          <div class="summary-row"><span>Delivery</span><span><%= total >= 300 ? 'Free' : 'Calculated' %></span></div>
+          <hr/>
+          <div class="summary-total"><span>Total</span><span>GH&#8373; <%= total.toFixed(2) %></span></div>
+          <div class="payment-logos mt-3">
+            <span>MTN MoMo</span><span>AirtelTigo</span><span>Telecel</span><span>Visa</span><span>Mastercard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
+  const paymentExtraRow = document.getElementById('paymentExtraRow');
+  const paymentExtraInput = document.getElementById('paymentExtraInput');
+  const paymentExtraLabel = document.getElementById('paymentExtraLabel');
+  const paymentExtraHelp = document.getElementById('paymentExtraHelp');
+
+  function updatePaymentExtraField() {
+    const selected = document.querySelector('input[name="payment_method"]:checked');
+    if (!selected) {
+      paymentExtraRow.classList.add('d-none');
+      paymentExtraInput.required = false;
+      return;
+    }
+    if (selected.value === 'momo') {
+      paymentExtraRow.classList.remove('d-none');
+      paymentExtraLabel.textContent = 'Mobile Money Number';
+      paymentExtraInput.placeholder = 'e.g. 0241234567';
+      paymentExtraHelp.textContent = 'Enter the phone number used for your mobile money payment.';
+      paymentExtraInput.required = true;
+    } else if (selected.value === 'card') {
+      paymentExtraRow.classList.remove('d-none');
+      paymentExtraLabel.textContent = 'Card Number';
+      paymentExtraInput.placeholder = 'e.g. 5123 4567 8910 1234';
+      paymentExtraHelp.textContent = 'Enter your card number. Full card details will be entered on the secure Paystack page.';
+      paymentExtraInput.required = true;
+    } else {
+      paymentExtraRow.classList.add('d-none');
+      paymentExtraInput.required = false;
+      paymentExtraInput.value = '';
+    }
+  }
+
+  paymentRadios.forEach(radio => radio.addEventListener('change', updatePaymentExtraField));
+  updatePaymentExtraField();
+</script>
+<%- include('partials/footer') %>

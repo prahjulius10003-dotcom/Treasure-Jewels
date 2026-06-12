@@ -1,0 +1,30 @@
+<div class="product-card">
+  <div class="product-img-wrap">
+    <a href="/product/<%= product.id %>">
+      <img src="/images/<%= product.image %>" alt="<%= product.name %>" loading="lazy" onerror="this.src='/images/default-bag.jpg'"/>
+    </a>
+    <% if(product.badge) { %>
+    <span class="product-badge badge-<%= product.badge.toLowerCase().replace(' ','-') %>"><%= product.badge %></span>
+    <% } %>
+    <button class="wishlist-btn <%= (typeof wishlist !== 'undefined' && wishlist.includes(product.id)) ? 'active' : '' %>" data-id="<%= product.id %>" aria-label="Wishlist">
+      <i class="bi bi-heart<%= (typeof wishlist !== 'undefined' && wishlist.includes(product.id)) ? '-fill' : '' %>"></i>
+    </button>
+  </div>
+  <div class="product-info">
+    <span class="product-category"><%= product.category %></span>
+    <h6><a href="/product/<%= product.id %>"><%= product.name %></a></h6>
+    <div class="product-rating">
+      <% for(let i=1;i<=5;i++){ %><i class="bi bi-star<%= i <= Math.round(product.rating) ? '-fill' : '' %>"></i><% } %>
+      <span class="rating-count">(<%= product.review_count %>)</span>
+    </div>
+    <div class="product-price-row">
+      <span class="product-price">GH&#8373; <%= product.price.toFixed(2) %></span>
+      <% if(product.original_price) { %>
+      <span class="original-price">GH&#8373; <%= product.original_price.toFixed(2) %></span>
+      <% } %>
+    </div>
+  </div>
+  <form action="/cart/add/<%= product.id %>" method="POST">
+    <button type="submit" class="add-to-cart-btn"><i class="bi bi-bag-plus me-1"></i> Add to Cart</button>
+  </form>
+</div>

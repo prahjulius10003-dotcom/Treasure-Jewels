@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+<section class="section-pad">
+  <div class="container">
+    <div class="success-box">
+      <div class="success-icon-wrap">
+        <div class="success-circle"><i class="bi bi-check-lg"></i></div>
+      </div>
+      <h2>Order Confirmed!</h2>
+      <p class="lead">Thank you, <strong><%= order.customer_name %></strong>! We have received your order.</p>
+      <div class="order-details-box">
+        <div class="row g-2 text-start">
+          <div class="col-6"><strong>Order ID:</strong></div><div class="col-6">#<%= order.id %></div>
+          <div class="col-6"><strong>Total:</strong></div><div class="col-6">GH&#8373; <%= order.total.toFixed(2) %></div>
+          <div class="col-6"><strong>Payment:</strong></div>
+          <div class="col-6"><span class="badge <%= order.payment_status==='paid' ? 'bg-success' : 'bg-warning text-dark' %>"><%= order.payment_status %></span></div>
+          <div class="col-6"><strong>Deliver to:</strong></div><div class="col-6"><%= order.delivery_address %>, <%= order.city %></div>
+        </div>
+      </div>
+      <p class="text-muted mt-2 small">We will contact you on <strong><%= order.customer_phone %></strong> to confirm delivery time.</p>
+      <div class="success-actions mt-4">
+        <a href="/track-order" class="btn-gold">Track Order <i class="bi bi-arrow-right ms-1"></i></a>
+        <a href="/shop" class="btn-outline-dark-custom">Continue Shopping</a>
+      </div>
+      <div class="whatsapp-confirm mt-4">
+        <a href="https://wa.me/233XXXXXXXXX?text=Hi! I just placed order %23<%= order.id %>. Please confirm my order." target="_blank">
+          <i class="bi bi-whatsapp me-1"></i> Confirm via WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

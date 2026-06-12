@@ -1,0 +1,121 @@
+<%- include('partials/header') %>
+<section class="section-pad">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/shop">Shop</a></li>
+        <li class="breadcrumb-item"><a href="/shop?category=<%= encodeURIComponent(product.category) %>"><%= product.category %></a></li>
+        <li class="breadcrumb-item active"><%= product.name %></li>
+      </ol>
+    </nav>
+    <div class="row g-5">
+      <div class="col-md-6">
+        <div class="detail-img-wrap">
+          <% if(product.badge) { %><span class="product-badge badge-<%= product.badge.toLowerCase().replace(' ','-') %> detail-badge"><%= product.badge %></span><% } %>
+          <img src="/images/<%= product.image %>" alt="<%= product.name %>" id="mainImg" onerror="this.src='/images/default-bag.jpg'"/>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <span class="product-category mb-1 d-block"><%= product.category %></span>
+        <h1 class="detail-name"><%= product.name %></h1>
+        <div class="detail-rating mb-3">
+          <% for(let i=1;i<=5;i++){ %><i class="bi bi-star<%= i <= Math.round(product.rating) ? '-fill' : '' %>"></i><% } %>
+          <span><%= product.rating %> (<%= product.review_count %> reviews)</span>
+        </div>
+        <div class="detail-price-row">
+          <span class="detail-price">GH&#8373; <%= product.price.toFixed(2) %></span>
+          <% if(product.original_price) { %>
+          <span class="detail-original">GH&#8373; <%= product.original_price.toFixed(2) %></span>
+          <span class="detail-saving">Save GH&#8373; <%= (product.original_price - product.price).toFixed(2) %></span>
+          <% } %>
+        </div>
+        <p class="detail-desc mt-3"><%= product.description %></p>
+        <div class="stock-indicator <%= product.stock < 5 ? 'low-stock' : '' %> mb-4">
+          <i class="bi bi-<%= product.stock > 0 ? 'check-circle-fill' : 'x-circle-fill' %>"></i>
+          <% if(product.stock > 5) { %>In Stock<% } else if(product.stock > 0) { %>Only <%= product.stock %> left!<% } else { %>Out of Stock<% } %>
+        </div>
+        <form action="/cart/add/<%= product.id %>" method="POST" class="add-to-cart-form">
+          <button type="submit" class="btn-gold w-100 mb-2" <%= product.stock === 0 ? 'disabled' : '' %>>
+            <i class="bi bi-bag-plus me-2"></i> Add to Cart
+          </button>
+        </form>
+        <button class="btn-outline-dark-custom w-100 wishlist-btn-lg" data-id="<%= product.id %>">
+          <i class="bi bi-heart me-2"></i> Save to Wishlist
+        </button>
+        <div class="detail-meta mt-4">
+          <div class="meta-item"><i class="bi bi-truck"></i><span>Free delivery on orders above GH&#8373;300</span></div>
+          <div class="meta-item"><i class="bi bi-arrow-repeat"></i><span>7-day easy returns</span></div>
+          <div class="meta-item"><i class="bi bi-shield-check"></i><span>Secure checkout with Paystack</span></div>
+          <div class="meta-item"><i class="bi bi-whatsapp"></i><a href="https://wa.me/233XXXXXXXXX?text=Hi! I am interested in <%= product.name %>" target="_blank">Ask about this product</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="mt-5 pt-4 reviews-section">
+      <div class="row">
+        <div class="col-md-8">
+          <h4 class="mb-4">Customer Reviews (<%= reviews.length %>)</h4>
+          <% if(reviews.length === 0) { %>
+          <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+          <% } else { %>
+          <% reviews.forEach(r => { %>
+          <div class="review-item">
+            <div class="review-header">
+              <div class="reviewer-avatar"><%= r.customer_name.charAt(0).toUpperCase() %></div>
+              <div>
+                <strong><%= r.customer_name %></strong>
+                <div class="review-stars">
+                  <% for(let i=1;i<=5;i++){ %><i class="bi bi-star<%= i<=r.rating ? '-fill' : '' %>"></i><% } %>
+                </div>
+              </div>
+              <span class="review-date ms-auto"><%= new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) %></span>
+            </div>
+            <p class="review-body"><%= r.comment %></p>
+          </div>
+          <% }) %>
+          <% } %>
+        </div>
+        <div class="col-md-4">
+          <div class="review-form-card">
+            <h6>Write a Review</h6>
+            <form action="/product/<%= product.id %>/review" method="POST">
+              <div class="mb-3">
+                <input type="text" name="customer_name" class="form-control" placeholder="Your name" required/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small">Rating</label>
+                <div class="star-picker">
+                  <% for(let i=5;i>=1;i--) { %>
+                  <input type="radio" id="star<%= i %>" name="rating" value="<%= i %>" required/>
+                  <label for="star<%= i %>"><i class="bi bi-star-fill"></i></label>
+                  <% } %>
+                </div>
+              </div>
+              <div class="mb-3">
+                <textarea name="comment" class="form-control" rows="3" placeholder="Share your experience..."></textarea>
+              </div>
+              <button type="submit" class="btn-gold w-100">Submit Review</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related products -->
+    <% if(related.length > 0) { %>
+    <div class="mt-5 pt-4">
+      <h4 class="mb-4">You May Also Like</h4>
+      <div class="row g-4">
+        <% related.forEach(p => { %>
+        <div class="col-6 col-md-3">
+          <%- include('partials/product-card', { product: p, wishlist }) %>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/footer') %>

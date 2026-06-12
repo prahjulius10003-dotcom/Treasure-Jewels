@@ -1,0 +1,41 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-page-header">
+    <h4>Orders</h4>
+    <div class="d-flex gap-2">
+      <% ['','pending','confirmed','shipped','delivered','cancelled'].forEach(s => { %>
+      <a href="/admin/orders<%= s ? '?status='+s : '' %>" class="btn btn-sm <%= filterStatus===s ? 'btn-dark' : 'btn-outline-secondary' %>"><%= s || 'All' %></a>
+      <% }) %>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table admin-table">
+      <thead><tr><th>#</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Update</th><th>Date</th></tr></thead>
+      <tbody>
+        <% orders.forEach(o => { %>
+        <% const items = JSON.parse(o.items); %>
+        <tr>
+          <td class="fw-bold">#<%= o.id %></td>
+          <td><%= o.customer_name %><br/><small class="text-muted"><%= o.customer_phone %> &bull; <%= o.city %></small></td>
+          <td><small><%= items.map(i=>i.name+'×'+i.quantity).join(', ') %></small></td>
+          <td>GH&#8373;<%= o.total.toFixed(2) %></td>
+          <td><span class="status-pill <%= o.payment_status==='paid' ? 'pill-green' : 'pill-yellow' %>"><%= o.payment_status %></span></td>
+          <td><span class="status-pill pill-gray"><%= o.order_status %></span></td>
+          <td>
+            <form action="/admin/orders/<%= o.id %>/status?_method=PUT" method="POST" class="d-flex gap-1">
+              <select name="order_status" class="form-select form-select-sm" style="width:120px">
+                <% ['pending','confirmed','shipped','delivered','cancelled'].forEach(s => { %>
+                <option value="<%= s %>" <%= o.order_status===s ? 'selected' : '' %>><%= s %></option>
+                <% }) %>
+              </select>
+              <button class="btn btn-sm btn-dark">Save</button>
+            </form>
+          </td>
+          <td class="small text-muted"><%= new Date(o.created_at).toLocaleDateString('en-GB') %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

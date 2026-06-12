@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+<section class="section-pad">
+  <div class="container" style="max-width:620px">
+    <div class="track-card">
+      <div class="text-center mb-4">
+        <i class="bi bi-box-seam" style="font-size:2.5rem;color:var(--gold)"></i>
+        <h3 class="mt-2">Track Your Order</h3>
+        <p class="text-muted">Enter your order ID and phone number to check your delivery status.</p>
+      </div>
+      <form action="/track-order" method="GET" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Order ID</label>
+          <input type="number" name="order_id" class="form-control" placeholder="e.g. 42" required/>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Phone Number (used at checkout)</label>
+          <input type="tel" name="phone" class="form-control" placeholder="e.g. 0241234567" required/>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn-gold w-100">Track Order <i class="bi bi-search ms-1"></i></button>
+        </div>
+      </form>
+
+      <% if(searched) { %>
+        <hr class="my-4"/>
+        <% if(order) { %>
+        <div class="track-result">
+          <h5>Order #<%= order.id %></h5>
+          <% const statuses = ['pending','confirmed','shipped','delivered']; %>
+          <% const currentStep = statuses.indexOf(order.order_status); %>
+          <div class="order-progress">
+            <% statuses.forEach((s, i) => { %>
+            <div class="progress-step <%= i <= currentStep ? 'done' : '' %> <%= i === currentStep ? 'current' : '' %>">
+              <div class="step-dot"><i class="bi bi-<%= ['clock','check','truck','house-check'][i] %>"></i></div>
+              <span><%= ['Pending','Confirmed','Shipped','Delivered'][i] %></span>
+            </div>
+            <% if(i < statuses.length-1) { %><div class="progress-line <%= i < currentStep ? 'done' : '' %>"></div><% } %>
+            <% }) %>
+          </div>
+          <div class="track-details mt-4">
+            <div class="row g-2">
+              <div class="col-6"><strong>Customer:</strong></div><div class="col-6"><%= order.customer_name %></div>
+              <div class="col-6"><strong>Total:</strong></div><div class="col-6">GH&#8373; <%= order.total.toFixed(2) %></div>
+              <div class="col-6"><strong>Payment:</strong></div>
+              <div class="col-6"><span class="badge <%= order.payment_status==='paid' ? 'bg-success' : 'bg-warning text-dark' %>"><%= order.payment_status %></span></div>
+              <div class="col-6"><strong>Delivery to:</strong></div><div class="col-6"><%= order.delivery_address %>, <%= order.city %></div>
+              <div class="col-6"><strong>Date:</strong></div><div class="col-6"><%= new Date(order.created_at).toLocaleDateString('en-GB') %></div>
+            </div>
+          </div>
+        </div>
+        <% } else { %>
+        <div class="alert alert-danger mt-3"><i class="bi bi-exclamation-circle me-2"></i>No order found with those details. Please check and try again.</div>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

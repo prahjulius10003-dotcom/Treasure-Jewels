@@ -1,0 +1,28 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-page-header"><h4>Customer Reviews</h4></div>
+  <div class="table-responsive">
+    <table class="table admin-table">
+      <thead><tr><th>Product</th><th>Customer</th><th>Rating</th><th>Comment</th><th>Date</th><th>Action</th></tr></thead>
+      <tbody>
+        <% reviews.forEach(r => { %>
+        <tr>
+          <td><%= r.product_name %></td>
+          <td><%= r.customer_name %></td>
+          <td>
+            <% for(let i=1;i<=5;i++){%><i class="bi bi-star<%= i<=r.rating?'-fill':''%> text-warning"></i><%}%>
+          </td>
+          <td class="small"><%= r.comment %></td>
+          <td class="small text-muted"><%= new Date(r.created_at).toLocaleDateString('en-GB') %></td>
+          <td>
+            <form action="/admin/reviews/<%= r.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this review?')">
+              <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

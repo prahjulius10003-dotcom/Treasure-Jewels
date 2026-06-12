@@ -1,0 +1,62 @@
+<%- include('partials/header') %>
+<section class="section-pad">
+  <div class="container">
+    <h2 class="mb-4">Shopping Cart</h2>
+    <% if(cart.length === 0) { %>
+    <div class="empty-state">
+      <i class="bi bi-bag-x"></i>
+      <h5>Your cart is empty</h5>
+      <p class="text-muted">Looks like you have not added anything yet.</p>
+      <a href="/shop" class="btn-gold mt-3">Start Shopping</a>
+    </div>
+    <% } else { %>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <% cart.forEach(item => { %>
+        <div class="cart-item">
+          <a href="/product/<%= item.id %>">
+            <img src="/images/<%= item.image %>" alt="<%= item.name %>" onerror="this.src='/images/default-bag.jpg'"/>
+          </a>
+          <div class="cart-item-info">
+            <a href="/product/<%= item.id %>" class="cart-item-name"><%= item.name %></a>
+            <p class="cart-item-price">GH&#8373; <%= item.price.toFixed(2) %></p>
+          </div>
+          <div class="cart-item-controls">
+            <form action="/cart/update/<%= item.id %>" method="POST" class="qty-form">
+              <button type="submit" name="quantity" value="<%= item.quantity - 1 %>" class="qty-btn">-</button>
+              <span class="qty-display"><%= item.quantity %></span>
+              <button type="submit" name="quantity" value="<%= item.quantity + 1 %>" class="qty-btn">+</button>
+            </form>
+            <p class="cart-subtotal">GH&#8373; <%= (item.price * item.quantity).toFixed(2) %></p>
+            <form action="/cart/remove/<%= item.id %>" method="POST">
+              <button type="submit" class="remove-btn"><i class="bi bi-trash3"></i></button>
+            </form>
+          </div>
+        </div>
+        <% }) %>
+        <a href="/shop" class="continue-shopping"><i class="bi bi-arrow-left me-1"></i> Continue Shopping</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="order-summary-card">
+          <h5>Order Summary</h5>
+          <div class="summary-row"><span>Subtotal (<%= cart.reduce((s,i)=>s+i.quantity,0) %> items)</span><span>GH&#8373; <%= total.toFixed(2) %></span></div>
+          <div class="summary-row"><span>Delivery</span><span class="<%= total >= 300 ? 'text-success' : '' %>"><%= total >= 300 ? 'Free' : 'Calculated at checkout' %></span></div>
+          <% if(total < 300) { %>
+          <div class="free-delivery-bar">
+            <p class="small mb-1">Add GH&#8373; <%= (300 - total).toFixed(2) %> more for free delivery</p>
+            <div class="progress" style="height:6px"><div class="progress-bar" style="width:<%= Math.min((total/300)*100,100) %>%;background:var(--gold)"></div></div>
+          </div>
+          <% } %>
+          <hr/>
+          <div class="summary-total"><span>Total</span><span>GH&#8373; <%= total.toFixed(2) %></span></div>
+          <a href="/cart/checkout" class="btn-gold w-100 mt-3 d-block text-center">Proceed to Checkout <i class="bi bi-lock-fill ms-1"></i></a>
+          <div class="secure-badges mt-3">
+            <i class="bi bi-shield-lock-fill"></i> <span>Secure & encrypted checkout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/footer') %>

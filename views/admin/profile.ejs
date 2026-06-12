@@ -1,0 +1,76 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-page-header">
+    <div>
+      <h4>Admin Profile</h4>
+      <span class="text-muted small">Manage your information and change your password</span>
+    </div>
+    <a href="/admin" class="btn btn-outline-dark btn-sm"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="admin-card">
+        <div class="admin-card-header"><h6>Profile Details</h6></div>
+        <form action="/admin/profile?_method=PUT" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label">Profile picture</label>
+            <div class="mb-2 d-flex align-items-start gap-3">
+              <img src="/images/<%= admin.image || 'avatar-placeholder.svg' %>" alt="Profile picture" class="profile-preview" />
+              <div class="flex-grow-1">
+                <input type="file" name="image" class="form-control mb-2" accept="image/*" />
+                <button type="button" id="remove-image-btn" class="btn btn-outline-danger btn-sm">Remove image</button>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" value="<%= admin.username %>" disabled />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" value="<%= admin.name %>" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="<%= admin.email %>" />
+          </div>
+          <button type="submit" class="btn btn-dark">Save Profile</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="admin-card">
+        <div class="admin-card-header"><h6>Change Password</h6></div>
+        <form action="/admin/profile/password?_method=PUT" method="POST">
+          <div class="mb-3">
+            <label class="form-label">Current Password</label>
+            <input type="password" name="current_password" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">New Password</label>
+            <input type="password" name="new_password" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" name="confirm_password" class="form-control" required />
+          </div>
+          <button type="submit" class="btn btn-dark">Update Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      const btn = document.getElementById('remove-image-btn');
+      if (!btn) return;
+      btn.addEventListener('click', function(){
+        if (!confirm('Remove profile image?')) return;
+        fetch('/admin/profile/remove-image', { method: 'POST' })
+          .then(res => { if (res.ok) window.location.reload(); else throw new Error('Remove failed'); })
+          .catch(() => alert('Failed to remove image'));
+      });
+    })();
+  </script>
+</div>
+<%- include('../partials/admin-footer') %>

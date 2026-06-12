@@ -1,0 +1,68 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-page-header">
+    <h4>Dashboard</h4>
+    <span class="text-muted small">Welcome back, <%= adminName %></span>
+  </div>
+  <div class="row g-4 mb-4">
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-icon-wrap purple"><i class="bi bi-bag-check"></i></div><div><h3><%= totalOrders %></h3><p>Total Orders</p></div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-icon-wrap green"><i class="bi bi-currency-exchange"></i></div><div><h3>GH&#8373;<%= totalRevenue.toFixed(0) %></h3><p>Revenue (Paid)</p></div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-icon-wrap orange"><i class="bi bi-clock"></i></div><div><h3><%= pendingOrders %></h3><p>Pending Orders</p></div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-icon-wrap blue"><i class="bi bi-envelope"></i></div><div><h3><%= subscribers %></h3><p>Subscribers</p></div></div></div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-8">
+      <div class="admin-card">
+        <div class="admin-card-header"><h6>Recent Orders</h6><a href="/admin/orders" class="btn btn-sm btn-outline-dark">View All</a></div>
+        <div class="table-responsive">
+          <table class="table admin-table mb-0">
+            <thead><tr><th>#</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th></tr></thead>
+            <tbody>
+              <% recentOrders.forEach(o => { %>
+              <tr>
+                <td class="fw-semibold">#<%= o.id %></td>
+                <td><%= o.customer_name %><br/><small class="text-muted"><%= o.city %></small></td>
+                <td>GH&#8373;<%= o.total.toFixed(2) %></td>
+                <td><span class="status-pill <%= o.payment_status==='paid' ? 'pill-green' : 'pill-yellow' %>"><%= o.payment_status %></span></td>
+                <td><span class="status-pill pill-gray"><%= o.order_status %></span></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="admin-card">
+        <div class="admin-card-header"><h6>Top Products</h6></div>
+        <% topProducts.forEach(p => { %>
+        <div class="top-product-item">
+          <img src="/images/<%= p.image %>" onerror="this.src='/images/default-bag.jpg'"/>
+          <div><p class="mb-0 small fw-semibold"><%= p.name %></p><p class="mb-0 small text-muted"><%= p.review_count %> reviews &bull; GH&#8373;<%= p.price.toFixed(2) %></p></div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <div class="admin-card-header"><h6>Revenue (Last 7 Days)</h6></div>
+    <% if(weekRevenue.length === 0) { %>
+    <p class="text-muted small p-3">No paid orders in the last 7 days yet.</p>
+    <% } else { %>
+    <div class="week-chart">
+      <% weekRevenue.forEach(d => { %>
+      <div class="chart-col">
+        <div class="chart-bar-wrap">
+          <div class="chart-bar" style="height:<%= Math.max(20,(d.revenue/Math.max(...weekRevenue.map(x=>x.revenue)))*120) %>px" title="GH&#8373;<%= d.revenue.toFixed(2) %>"></div>
+        </div>
+        <span class="chart-label"><%= d.day.slice(5) %></span>
+        <span class="chart-val">GH&#8373;<%= parseInt(d.revenue) %></span>
+      </div>
+      <% }) %>
+    </div>
+    <% } %>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>
