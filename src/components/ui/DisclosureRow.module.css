@@ -1,0 +1,27 @@
+.container {
+  border-top: 1px solid var(--color-hairline);
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg) 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-ink);
+  text-align: left;
+}
+
+.icon {
+  font-size: 24px;
+  line-height: 1;
+  font-family: var(--font-display);
+}
+
+.content {
+  padding-bottom: var(--spacing-lg);
+  color: var(--color-ink);
+}

@@ -1,0 +1,65 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.link, .linkActive {
+  text-decoration: none;
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.linkActive {
+  font-weight: 700;
+}
+
+.priceInputs {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--color-hairline-soft);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+}
+
+.applyBtn {
+  background-color: var(--color-ink);
+  color: var(--color-canvas);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 8px 16px;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.applyBtn:active {
+  transform: scale(0.95);
+}

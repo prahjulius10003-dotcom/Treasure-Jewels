@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Bebas+Neue&display=swap');
+
+:root {
+  /* Premium Editorial Colors */
+  --color-primary: #0F1115;
+  --color-on-primary: #ffffff;
+  --color-canvas: #F8F9FA;
+  --color-soft-cloud: #EBECEF;
+  --color-ink: #0F1115;
+  --color-charcoal: #2A2C35;
+  --color-ash: #545766;
+  --color-mute: #8B8D98;
+  --color-stone: #B4B6C3;
+  --color-hairline: #D0D2DA;
+  --color-hairline-soft: #E2E4E9;
+  --color-sale: #C82A2A;
+  --color-sale-deep: #8B1A1A;
+  --color-success: #1E6B48;
+  --color-success-bright: #269661;
+  --color-info: #1A5CFF;
+  --color-info-deep: #0D3EBF;
+
+  /* Typography */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-ui: 'Inter', sans-serif;
+
+  /* Radii */
+  --radius-none: 0px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 80px;
+
+  /* Animations & Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Classes */
+.typography-display-campaign {
+  font-family: var(--font-display);
+  font-size: 96px;
+  font-weight: 400; /* Bebas Neue is typically 400 */
+  line-height: 0.9;
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+}
+
+.typography-section-heading {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+}
+
+.typography-heading-xl {
+  font-family: var(--font-ui);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.typography-heading-lg {
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.typography-heading-md {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+.typography-body-md {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.typography-body-strong {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.typography-caption-md {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.typography-caption-sm {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Utilities */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

@@ -1,0 +1,60 @@
+.buttonBase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+  font-family: var(--font-ui);
+  text-decoration: none;
+}
+
+.buttonBase:active {
+  transform: scale(0.95);
+}
+
+.buttonPrimary {
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  border-radius: var(--radius-lg);
+  padding: 16px 32px;
+  height: var(--spacing-section);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.buttonPrimary:active {
+  opacity: 0.5;
+  transform: scale(0.95); /* Simulating Nike's tap collapse */
+}
+
+.buttonSecondary {
+  background-color: var(--color-soft-cloud);
+  color: var(--color-ink);
+  border-radius: var(--radius-lg);
+  padding: 16px 32px;
+  height: var(--spacing-section);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.buttonOutlineOnImage {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  border-radius: var(--radius-lg);
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.buttonIconCircular {
+  background-color: var(--color-soft-cloud);
+  color: var(--color-ink);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}

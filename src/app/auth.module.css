@@ -1,0 +1,80 @@
+.authContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+  padding: var(--spacing-xl);
+}
+
+.authCard {
+  background-color: var(--color-canvas);
+  padding: var(--spacing-xxl);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 32px rgba(15, 17, 21, 0.08);
+  width: 100%;
+  max-width: 440px;
+  border: 1px solid var(--color-hairline-soft);
+}
+
+.formGroup {
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-hairline);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  background-color: var(--color-canvas);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 1px var(--color-ink);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  margin-top: var(--spacing-md);
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.submitBtn:hover {
+  background-color: var(--color-charcoal);
+}
+
+.linkText {
+  margin-top: var(--spacing-lg);
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-mute);
+}
+
+.linkText a {
+  color: var(--color-ink);
+  font-weight: 500;
+  text-decoration: underline;
+}
