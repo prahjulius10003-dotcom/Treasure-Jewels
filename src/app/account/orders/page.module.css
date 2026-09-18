@@ -1,0 +1,77 @@
+.tableWrapper {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: 16px;
+  background-color: var(--color-soft-cloud);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-mute);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-hairline);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.viewLink {
+  color: var(--color-info);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.viewLink:hover {
+  text-decoration: underline;
+}
+
+.emptyState {
+  padding: var(--spacing-xxl);
+  text-align: center;
+  background-color: var(--color-canvas);
+  border: 1px dashed var(--color-hairline);
+  border-radius: var(--radius-md);
+}
+
+.shopLink {
+  display: inline-block;
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.shopLink:hover {
+  opacity: 0.9;
+}

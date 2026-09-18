@@ -1,0 +1,80 @@
+.stepperContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xl);
+  width: 100%;
+}
+
+.stepWrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.stepWrapper:last-child {
+  flex: 0;
+}
+
+.stepIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  position: relative;
+  z-index: 2;
+}
+
+.stepNumber {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  background-color: var(--color-canvas);
+  border: 2px solid var(--color-hairline);
+  color: var(--color-mute);
+  transition: all var(--transition-fast);
+}
+
+.stepNumber.active {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.stepNumber.completed {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-on-primary);
+}
+
+.stepLabel {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-mute);
+  white-space: nowrap;
+  position: absolute;
+  top: 32px;
+}
+
+.stepLabel.activeLabel {
+  color: var(--color-ink);
+}
+
+.stepLine {
+  height: 2px;
+  flex: 1;
+  background-color: var(--color-hairline);
+  margin: 0 16px;
+  margin-bottom: 24px; /* offset for label */
+  transition: background-color var(--transition-fast);
+}
+
+.lineCompleted {
+  background-color: var(--color-ink);
+}

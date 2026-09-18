@@ -1,0 +1,28 @@
+.panelContainer {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.icons {
+  display: flex;
+  gap: var(--spacing-xs);
+  font-size: 24px;
+}
+
+.content {
+  padding: var(--spacing-md);
+  background-color: var(--color-on-primary);
+  border: 1px dashed var(--color-hairline);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}

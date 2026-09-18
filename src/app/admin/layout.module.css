@@ -1,0 +1,118 @@
+.adminShell {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-canvas);
+  /* Override global layout styles implicitly */
+  margin: calc(-1 * var(--spacing-xl)) 0; /* Negate the padding from main layout if necessary */
+}
+
+.sidebar {
+  width: 240px;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebarHeader {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-charcoal);
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md) 0;
+  flex: 1;
+}
+
+.navLink {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--color-stone);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+}
+
+.navLink:hover {
+  background-color: var(--color-charcoal);
+  color: var(--color-on-primary);
+}
+
+.sidebarFooter {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-charcoal);
+}
+
+.storefrontLink {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--color-stone);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.storefrontLink:hover {
+  color: var(--color-on-primary);
+}
+
+.mainWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevent flex overflow */
+}
+
+.topBar {
+  height: 60px;
+  background-color: var(--color-on-primary);
+  border-bottom: 1px solid var(--color-hairline);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-lg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topBarContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mainContent {
+  padding: var(--spacing-lg);
+  flex: 1;
+  overflow-y: auto;
+}

@@ -1,0 +1,70 @@
+.variants {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.variantGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--color-mute);
+}
+
+.value {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.colorBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  outline-offset: 2px;
+  transition: transform var(--transition-fast);
+}
+
+.colorBtn:hover {
+  transform: scale(1.1);
+}
+
+.colorSelected {
+  outline: 1px solid var(--color-ink);
+}
+
+.sizeBtn {
+  padding: 8px 16px;
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sizeBtn:hover {
+  border-color: var(--color-charcoal);
+}
+
+.sizeSelected {
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  border-color: var(--color-ink);
+}
