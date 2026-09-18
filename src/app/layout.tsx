@@ -6,6 +6,8 @@ import { CartLink } from '@/components/ui/CartLink';
 import { getSession } from '@/lib/auth';
 import { AuthProvider } from '@/context/AuthContext';
 import { Toaster } from 'react-hot-toast';
+import { SearchInput } from '@/components/ui/SearchInput';
+import { CookieConsent } from '@/components/ui/CookieConsent';
 
 export const metadata: Metadata = {
   title: 'Treasure Jewels',
@@ -24,6 +26,7 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Toaster position="bottom-right" />
+        <CookieConsent />
         <AuthProvider user={user}>
         <CartProvider>
           <header>
@@ -58,15 +61,7 @@ export default async function RootLayout({
               <a href="/shop" className={styles.navLink}>Sale</a>
             </div>
             <div className={styles.actions}>
-              {/* Using a simple input for search for now */}
-              <input type="text" placeholder="Search" style={{
-                backgroundColor: 'var(--color-soft-cloud)',
-                border: 'none',
-                borderRadius: 'var(--radius-md)',
-                padding: '8px 16px',
-                height: '40px',
-                fontFamily: 'var(--font-ui)'
-              }} />
+              <SearchInput />
               <CartLink className={styles.navLink} style={{ marginLeft: '16px', display: 'flex', alignItems: 'center', height: '40px' }} />
             </div>
           </nav>

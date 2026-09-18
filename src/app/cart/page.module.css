@@ -1,42 +1,40 @@
 .cartContainer {
   padding: var(--spacing-xl);
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
-  width: 100%;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 100px 0;
 }
 
 .cartLayout {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
-  margin-top: var(--spacing-xl);
-}
-
-@media (min-width: 1024px) {
-  .cartLayout {
-    flex-direction: row;
-  }
+  gap: var(--spacing-xxl);
+  align-items: flex-start;
+  margin-top: var(--spacing-lg);
 }
 
 .cartItems {
-  flex: 2;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
 }
 
 .cartItem {
   display: flex;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md) 0;
+  gap: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
   border-bottom: 1px solid var(--color-hairline);
 }
 
 .itemImage {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
-  background-color: var(--color-soft-cloud);
+  border-radius: var(--radius-sm);
 }
 
 .itemDetails {
@@ -49,7 +47,6 @@
 .itemHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
 }
 
 .itemActions {
@@ -61,76 +58,106 @@
 .quantityControl {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
 }
 
 .qtyBtn {
   background: none;
-  border: 1px solid var(--color-hairline);
-  border-radius: var(--radius-full);
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: none;
   cursor: pointer;
-  font-family: var(--font-ui);
+  font-size: 18px;
+  color: var(--color-mute);
 }
 
 .removeBtn {
   background: none;
   border: none;
-  text-decoration: underline;
-  color: var(--color-ink);
-  cursor: pointer;
+  color: var(--color-sale);
   font-family: var(--font-ui);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .summarySection {
-  flex: 1;
-  background-color: var(--color-soft-cloud);
+  width: 350px;
+  background-color: var(--color-canvas);
   padding: var(--spacing-xl);
   border-radius: var(--radius-md);
-  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+@media (max-width: 1024px) {
+  .cartLayout {
+    flex-direction: column;
+  }
+  .summarySection {
+    width: 100%;
+    position: static;
+  }
 }
 
 .summaryRow {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
 .summaryTotal {
   display: flex;
   justify-content: space-between;
-  margin-top: var(--spacing-lg);
   padding-top: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
   border-top: 1px solid var(--color-hairline);
 }
 
 .checkoutBtn {
+  display: block;
   width: 100%;
   background-color: var(--color-ink);
   color: var(--color-canvas);
-  border: none;
+  text-align: center;
+  padding: 16px;
   border-radius: var(--radius-full);
-  padding: 18px 24px;
   font-family: var(--font-ui);
   font-weight: 500;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: var(--spacing-xl);
-  transition: transform 0.2s;
   text-decoration: none;
-  display: inline-block;
-  text-align: center;
+  transition: opacity 0.2s;
+  margin: 0 auto;
 }
 
-.checkoutBtn:active {
-  transform: scale(0.95);
+.checkoutBtn:hover {
+  opacity: 0.9;
 }
 
-.emptyState {
-  text-align: center;
-  padding: 100px 0;
+.couponSection {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.couponInput {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+}
+
+.couponBtn {
+  padding: 0 16px;
+  background-color: var(--color-soft-cloud);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.couponBtn:hover {
+  background-color: var(--color-hairline);
 }

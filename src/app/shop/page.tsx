@@ -1,66 +1,41 @@
+import Link from 'next/link';
 import styles from './page.module.css';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { FilterSidebar } from '@/components/ui/FilterSidebar';
+import { getProducts } from '@/lib/api/products';
+import { SortSelect } from '@/components/ui/SortSelect';
+import type { Metadata } from 'next';
 
-// Reusing mock data for now
-const MOCK_PRODUCTS = [
-  {
-    id: 1,
-    name: 'Classic Leather Tote',
-    category: 'Tote Bags',
-    price: 350,
-    originalPrice: 420,
-    imageUrl: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=800',
-    badge: 'Bestseller',
-  },
-  {
-    id: 2,
-    name: 'Mini Crossbody Bag',
-    category: 'Crossbody Bags',
-    price: 180,
-    imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=800',
-    badge: 'New',
-  },
-  {
-    id: 3,
-    name: 'Weekend Travel Duffel',
-    category: 'Travel Bags',
-    price: 420,
-    originalPrice: 500,
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800',
-    badge: 'Sale',
-  },
-  {
-    id: 4,
-    name: 'Woven Straw Beach Bag',
-    category: 'Beach Bags',
-    price: 120,
-    imageUrl: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=800',
-    badge: 'New',
-  },
-  {
-    id: 5,
-    name: 'Executive Laptop Bag',
-    category: 'Work Bags',
-    price: 520,
-    imageUrl: 'https://images.unsplash.com/photo-1559523161-0fc0d8b38a7a?auto=format&fit=crop&q=80&w=800',
-  },
-  {
-    id: 6,
-    name: 'Quilted Chain Shoulder Bag',
-    category: 'Shoulder Bags',
-    price: 290,
-    originalPrice: 350,
-    imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=800',
-    badge: 'Sale',
+export const metadata: Metadata = {
+  title: 'Shop All Bags | Treasure Jewels',
+  description: 'Browse our collection of premium leather totes, crossbody bags, and travel duffels.',
+};
+
+// Define the shape of search params
+export default async function ShopPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const searchParams = await props.searchParams;
+  
+  const category = typeof searchParams.category === 'string' ? searchParams.category : undefined;
+  const sort = typeof searchParams.sort === 'string' ? searchParams.sort : undefined;
+  const minPrice = typeof searchParams.minPrice === 'string' ? parseFloat(searchParams.minPrice) : undefined;
+  const maxPrice = typeof searchParams.maxPrice === 'string' ? parseFloat(searchParams.maxPrice) : undefined;
+  
+  // Fetch products via our mock API
+  let products = await getProducts({ category, sort });
+  
+  if (minPrice !== undefined && !isNaN(minPrice)) {
+    products = products.filter(p => p.price >= minPrice);
   }
-];
+  if (maxPrice !== undefined && !isNaN(maxPrice)) {
+    products = products.filter(p => p.price <= maxPrice);
+  }
 
-export default function ShopPage() {
   return (
     <div className={styles.shopContainer}>
       <header className={styles.shopHeader}>
-        <h1 className="typography-section-heading">All Bags</h1>
+        <h1 className="typography-section-heading">{category === 'All' || !category ? 'All Bags' : category}</h1>
       </header>
       <div className={styles.shopLayout}>
         <aside className={styles.sidebar}>
@@ -68,21 +43,29 @@ export default function ShopPage() {
         </aside>
         <main className={styles.mainGrid}>
           <div className={styles.toolbar}>
-            <span className="typography-body-strong">{MOCK_PRODUCTS.length} Bags Found</span>
+            <span className="typography-body-strong">{products.length} Bags Found</span>
+            <SortSelect />
           </div>
           <div className={styles.grid}>
-            {MOCK_PRODUCTS.map((product) => (
-              <ProductCard
-                key={product.id}
-                name={product.name}
-                category={product.category}
-                price={product.price}
-                originalPrice={product.originalPrice}
-                imageUrl={product.imageUrl}
-                badge={product.badge}
-                href={`/product/${product.id}`}
-              />
-            ))}
+            {products.length > 0 ? (
+              products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  name={product.name}
+                  category={product.category}
+                  price={product.price}
+                  originalPrice={product.originalPrice}
+                  imageUrl={product.imageUrl}
+                  badge={product.badge}
+                  href={`/product/${product.id}`}
+                />
+              ))
+            ) : (
+              <div className={styles.emptyState}>
+                <p className="typography-body-strong">No products found matching your criteria.</p>
+                <Link href="/shop" className={styles.clearFiltersBtn}>Clear Filters</Link>
+              </div>
+            )}
           </div>
         </main>
       </div>

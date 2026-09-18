@@ -1,6 +1,15 @@
 import styles from './page.module.css';
 import { CampaignTile } from '@/components/ui/CampaignTile';
 import { ProductCard } from '@/components/ui/ProductCard';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Treasure Jewels | Premium Bags & Accessories',
+  description: 'Shop our latest collection of premium bags. Designed for your everyday adventures.',
+  openGraph: {
+    images: ['https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&q=80&w=1600'],
+  }
+};
 
 export default function Home() {
   const MOCK_PRODUCTS = [

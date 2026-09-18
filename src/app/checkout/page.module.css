@@ -1,8 +1,35 @@
 .checkoutContainer {
   padding: var(--spacing-xl);
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+}
+
+.checkoutLayout {
+  display: flex;
+  gap: var(--spacing-xxl);
+  align-items: flex-start;
+}
+
+.mainContent {
+  flex: 1;
+}
+
+.sidebar {
+  width: 400px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 100px;
+}
+
+@media (max-width: 1024px) {
+  .checkoutLayout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    position: static;
+  }
 }
 
 .formGroup {
@@ -17,11 +44,14 @@
   font-family: var(--font-ui);
   font-size: 16px;
   margin-top: 8px;
+  background-color: var(--color-on-primary);
+  color: var(--color-ink);
+  transition: border-color var(--transition-fast);
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--color-ink);
+  border-color: var(--color-charcoal);
 }
 
 .row {
@@ -33,10 +63,11 @@
   flex: 1;
 }
 
-.section {
-  margin-top: var(--spacing-xl);
-  padding-top: var(--spacing-xl);
-  border-top: 1px solid var(--color-hairline);
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 
 .submitBtn {
@@ -50,10 +81,105 @@
   font-weight: 500;
   font-size: 16px;
   cursor: pointer;
-  margin-top: var(--spacing-xl);
-  transition: transform 0.2s;
+  margin-top: var(--spacing-lg);
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .submitBtn:active {
-  transform: scale(0.95);
+  transform: scale(0.98);
+}
+
+.submitBtn:hover {
+  background-color: var(--color-charcoal);
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: var(--color-mute);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 18px 0;
+  text-decoration: underline;
+}
+
+.backBtn:hover {
+  color: var(--color-ink);
+}
+
+.actionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-hairline);
+  padding-top: var(--spacing-md);
+}
+
+/* Shipping / Payment Options */
+.shippingOptions,
+.paymentMethods {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.shippingCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+  background-color: var(--color-canvas);
+}
+
+.shippingCard:hover {
+  border-color: var(--color-mute);
+}
+
+.selectedCard {
+  border-color: var(--color-ink);
+  background-color: var(--color-on-primary);
+}
+
+.radioInput {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-ink);
+}
+
+.shippingInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Confirmation */
+.confirmationState {
+  text-align: center;
+  padding: var(--spacing-xxl) 0;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+  color: var(--color-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 auto var(--spacing-xl);
+}
+
+.confirmationActions {
+  max-width: 300px;
+  margin: var(--spacing-xl) auto 0;
 }

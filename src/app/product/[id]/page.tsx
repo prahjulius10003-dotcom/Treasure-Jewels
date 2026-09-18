@@ -1,88 +1,53 @@
-'use client';
-
-import React, { use } from 'react';
+import React from 'react';
+import { notFound } from 'next/navigation';
 import styles from './page.module.css';
 import { DisclosureRow } from '@/components/ui/DisclosureRow';
-import { useCart } from '@/context/CartContext';
+import { getProductById } from '@/lib/api/products';
+import { AddToCartButton } from '@/components/ui/AddToCartButton';
+import { ImageGallery } from '@/components/ui/ImageGallery';
+import { VariantSelector } from '@/components/ui/VariantSelector';
+import { ReviewForm } from '@/components/ui/ReviewForm';
+import type { Metadata } from 'next';
 
-const MOCK_PRODUCTS = [
-  {
-    id: 1,
-    name: 'Classic Leather Tote',
-    category: 'Tote Bags',
-    price: 350,
-    originalPrice: 420,
-    imageUrl: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=800',
-    description: 'A timeless leather tote that fits your laptop, daily essentials, and more. Handcrafted with premium grain leather that develops a beautiful patina over time.',
-  },
-  {
-    id: 2,
-    name: 'Mini Crossbody Bag',
-    category: 'Crossbody Bags',
-    price: 180,
-    imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=800',
-    description: 'Perfect for hands-free convenience. Features multiple compartments and an adjustable strap.',
-  },
-  {
-    id: 3,
-    name: 'Weekend Travel Duffel',
-    category: 'Travel Bags',
-    price: 420,
-    originalPrice: 500,
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800',
-    description: 'Your perfect companion for weekend getaways. Spacious interior with premium brass hardware.',
-  },
-  {
-    id: 4,
-    name: 'Woven Straw Beach Bag',
-    category: 'Beach Bags',
-    price: 120,
-    imageUrl: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=800',
-    description: 'Bring summer vibes wherever you go. Hand-woven with durable natural straw.',
-  },
-  {
-    id: 5,
-    name: 'Executive Laptop Bag',
-    category: 'Work Bags',
-    price: 520,
-    imageUrl: 'https://images.unsplash.com/photo-1559523161-0fc0d8b38a7a?auto=format&fit=crop&q=80&w=800',
-    description: 'Professional and sleek laptop bag that protects your devices in style.',
-  },
-  {
-    id: 6,
-    name: 'Quilted Chain Shoulder Bag',
-    category: 'Shoulder Bags',
-    price: 290,
-    originalPrice: 350,
-    imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=800',
-    description: 'Elegant quilted design with a versatile chain strap for day-to-night transitions.',
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const productId = parseInt(resolvedParams.id, 10);
+  const product = await getProductById(productId);
+
+  if (!product) {
+    return { title: 'Product Not Found | Treasure Jewels' };
   }
-];
 
-export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-  // Mock data fetching based on ID. 
-  // We unwrap params with `use` for Next.js 15
-  const resolvedParams = use(params);
+  return {
+    title: `${product.name} | Treasure Jewels`,
+    description: product.description || `Buy ${product.name} at Treasure Jewels.`,
+    openGraph: {
+      images: [product.imageUrl],
+    },
+  };
+}
+
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   const productId = parseInt(resolvedParams.id, 10);
   
-  const product = MOCK_PRODUCTS.find(p => p.id === productId) || MOCK_PRODUCTS[0];
-  const { addToCart } = useCart();
+  const product = await getProductById(productId);
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-      imageUrl: product.imageUrl
-    });
-    alert('Added to cart!');
-  };
+  if (!product) {
+    notFound();
+  }
+
+  // Create mock images for the gallery
+  const galleryImages = [
+    product.imageUrl,
+    'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=800'
+  ];
 
   return (
     <div className={styles.pdpContainer}>
       <div className={styles.imageSection}>
-        <img src={product.imageUrl} alt={product.name} className={styles.mainImage} />
+        <ImageGallery images={galleryImages} altText={product.name} />
       </div>
       
       <div className={styles.detailsSection}>
@@ -97,30 +62,26 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           </div>
         </div>
 
-        <div className={styles.actions}>
-          <button className={styles.addToCartBtn} onClick={handleAddToCart}>
-            Add to Bag
-          </button>
-          <button className={styles.wishlistBtn}>
-            Favorite <span style={{ marginLeft: '8px' }}>♡</span>
-          </button>
-        </div>
+        <VariantSelector />
+
+        <AddToCartButton product={product} />
 
         <div className={styles.disclosures}>
           <DisclosureRow title="Product Details">
-            <p>{product.description}</p>
-            <ul style={{ marginTop: '16px', paddingLeft: '20px' }}>
+            <p className="typography-body">{product.description}</p>
+            <ul style={{ marginTop: '16px', paddingLeft: '20px' }} className="typography-body">
               <li>100% genuine leather</li>
               <li>Dimensions: 14" W x 12" H x 6" D</li>
               <li>Internal zip pocket</li>
             </ul>
           </DisclosureRow>
           <DisclosureRow title="Shipping & Returns">
-            <p>Free standard shipping on orders over GH&#8373;300.</p>
-            <p>Returns accepted within 7 days of delivery for a full refund.</p>
+            <p className="typography-body">Free standard shipping on orders over GH&#8373;300.</p>
+            <p className="typography-body">Returns accepted within 7 days of delivery for a full refund.</p>
           </DisclosureRow>
           <DisclosureRow title="Reviews (0)">
-            <p>No reviews yet. Be the first to review this product!</p>
+            <p className="typography-body" style={{ marginBottom: '16px' }}>No reviews yet. Be the first to review this product!</p>
+            <ReviewForm />
           </DisclosureRow>
         </div>
       </div>

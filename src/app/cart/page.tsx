@@ -73,10 +73,19 @@ export default function CartPage() {
             <span className="typography-body">Estimated Delivery & Handling</span>
             <span className="typography-body">Free</span>
           </div>
+          <div className={styles.summaryRow} style={{ color: 'var(--color-success)' }}>
+            <span className="typography-body">Discount (Voucher)</span>
+            <span className="typography-body">- GH&#8373; 0.00</span>
+          </div>
 
           <div className={styles.summaryTotal}>
             <span className="typography-body-strong">Total</span>
             <span className="typography-body-strong">GH&#8373; {cartTotal.toFixed(2)}</span>
+          </div>
+
+          <div className={styles.couponSection}>
+            <input type="text" placeholder="Promo code" className={styles.couponInput} />
+            <button className={styles.couponBtn}>Apply</button>
           </div>
 
           <Link href="/checkout" className={styles.checkoutBtn}>
